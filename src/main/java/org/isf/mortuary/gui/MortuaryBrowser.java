@@ -56,23 +56,6 @@ import org.isf.mortuary.model.Mortuary;
 public class MortuaryBrowser extends ModalJFrame{
     private static final long serialVersionUID = 1L;
 
-//    public void wardInserted(AWTEvent e) {
-//        pWard.add(0,ward);
-//        ((WardBrowser.WardBrowserModel)table.getModel()).fireTableDataChanged();
-//        //table.updateUI();
-//        if (table.getRowCount() > 0)
-//            table.setRowSelectionInterval(0, 0);
-//    }
-//
-//    public void wardUpdated(AWTEvent e) {
-//        pWard.set(selectedrow,ward);
-//        ((WardBrowser.WardBrowserModel)table.getModel()).fireTableDataChanged();
-//        table.updateUI();
-//        if ((table.getRowCount() > 0) && selectedrow >-1)
-//            table.setRowSelectionInterval(selectedrow,selectedrow);
-//
-//    }
-
     private int pfrmBase = 10;
     private int pfrmWidth = 8;
     private int pfrmHeight = 6;
@@ -174,10 +157,7 @@ public class MortuaryBrowser extends ModalJFrame{
                     }else {
                         selectedrow = table.getSelectedRow();
                         mortuary = (Mortuary)(((MortuaryBrowser.MortuaryBrowserModel) model).getValueAt(table.getSelectedRow(), -1));
-//                        MortuaryEdit editrecord = new MortuaryEdit(myFrame,ward,false);
-//                        //editrecord.addWardListener(WardBrowser.this);
-//                        MortuaryEdit.addWardListener(MortuaryBrowser.this);
-//                        editrecord.setVisible(true);
+
                     }
                 }
             });
@@ -200,10 +180,6 @@ public class MortuaryBrowser extends ModalJFrame{
 
                 public void actionPerformed(ActionEvent event) {
                     mortuary=new Mortuary("","",0,0);;	//operation will reference the new record
-//                    MortuaryEdit newrecord = new MortuaryEdit(myFrame,ward,true);
-//                    //newrecord.addWardListener(WardBrowser.this);
-//                    MortuaryEdit.addMortuaryListener(MortuaryBrowser.this);
-//                    newrecord.setVisible(true);
                 }
             });
         }

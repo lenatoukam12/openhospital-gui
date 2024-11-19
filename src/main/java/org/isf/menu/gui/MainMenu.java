@@ -62,6 +62,9 @@ import org.isf.menu.manager.UserBrowsingManager;
 import org.isf.menu.model.User;
 import org.isf.menu.model.UserGroup;
 import org.isf.menu.model.UserMenuItem;
+import org.isf.mortuary.gui.MortuaryBrowser;
+import org.isf.mortuary.manager.MortuaryBrowserManager;
+import org.isf.mortuary.model.Mortuary;
 import org.isf.session.RestartUserSession;
 import org.isf.sessionaudit.manager.SessionAuditManager;
 import org.isf.sessionaudit.model.SessionAudit;
@@ -89,6 +92,7 @@ public class MainMenu extends JFrame implements ActionListener, LoginListener, C
 	private boolean flag_Xmpp;
 	private boolean flag_Sms;
 	private boolean flag_Telemetry;
+	private boolean flag_Mortuary;
 	private TelemetryDaemon telemetryDaemon;
 	// used to understand if a module is enabled
 	private Map<String, Boolean> activableModules;
@@ -319,6 +323,20 @@ public class MainMenu extends JFrame implements ActionListener, LoginListener, C
 			List<UserMenuItem> junkMenu = new ArrayList<>();
 			for (UserMenuItem umi : myMenu) {
 				if ("MEDICALSWARD".equalsIgnoreCase(umi.getCode()) || "MEDICALSWARD".equalsIgnoreCase(umi.getMySubmenu())) {
+					junkMenu.add(umi);
+				}
+			}
+			for (UserMenuItem umi : junkMenu) {
+				myMenu.remove(umi);
+			}
+		}
+
+		// remove mortuary if not enabled
+		flag_Mortuary = GeneralData.ENABLEMORTUARYMODULE;
+		if(!flag_Mortuary){
+			List<UserMenuItem> junkMenu = new ArrayList<>();
+			for (UserMenuItem umi : myMenu) {
+				if ("mortuary".equalsIgnoreCase(umi.getCode())) {
 					junkMenu.add(umi);
 				}
 			}
