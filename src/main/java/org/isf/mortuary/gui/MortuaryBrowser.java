@@ -20,9 +20,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 package org.isf.mortuary.gui;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -45,6 +44,8 @@ import org.isf.utils.exception.gui.OHServiceExceptionUtil;
 import org.isf.utils.jobjects.MessageDialog;
 import org.isf.utils.jobjects.ModalJFrame;
 import org.isf.mortuary.model.Mortuary;
+import org.isf.mortuary.gui.MortuaryEdit.MortuaryListener;
+import org.isf.ward.model.Ward;
 
 /**
  * This class shows a list of wards.
@@ -53,8 +54,27 @@ import org.isf.mortuary.model.Mortuary;
  * @author Rick
  *
  */
-public class MortuaryBrowser extends ModalJFrame{
+public class MortuaryBrowser extends ModalJFrame implements MortuaryListener {
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public void mortuaryInserted(AWTEvent e) {
+        pMortuary.add(0, mortuary);
+        ((MortuaryBrowser.MortuaryBrowserModel) table.getModel()).fireTableDataChanged();
+        if (table.getRowCount() > 0) {
+            table.setRowSelectionInterval(0, 0);
+        }
+    }
+
+    @Override
+    public void mortuaryUpdated(AWTEvent e) {
+        pMortuary.set(selectedrow, mortuary);
+        ((MortuaryBrowser.MortuaryBrowserModel) table.getModel()).fireTableDataChanged();
+        table.updateUI();
+        if (table.getRowCount() > 0 && selectedrow > -1) {
+            table.setRowSelectionInterval(selectedrow, selectedrow);
+        }
+    }
 
     private int pfrmBase = 10;
     private int pfrmWidth = 8;
@@ -105,6 +125,8 @@ public class MortuaryBrowser extends ModalJFrame{
         pfrmBordY = (screensize.height - (screensize.height / pfrmBase * pfrmHeight)) / 2;
         this.setBounds(pfrmBordX,pfrmBordY,screensize.width / pfrmBase * pfrmWidth,screensize.height / pfrmBase * pfrmHeight);
         this.setContentPane(getJContentPane());
+        this.setLocationRelativeTo(null);
+        pack();
 
     }
 
@@ -156,8 +178,10 @@ public class MortuaryBrowser extends ModalJFrame{
                         MessageDialog.error(null, "angal.common.pleaseselectarow.msg");
                     }else {
                         selectedrow = table.getSelectedRow();
-                        mortuary = (Mortuary)(((MortuaryBrowser.MortuaryBrowserModel) model).getValueAt(table.getSelectedRow(), -1));
-
+                        mortuary = (Mortuary) model.getValueAt(table.getSelectedRow(), -1);
+                        MortuaryEdit editrecord = new MortuaryEdit(myFrame, mortuary, false);
+                        editrecord.addMortuaryListener(MortuaryBrowser.this);
+                        editrecord.setVisible(true);
                     }
                 }
             });
@@ -179,7 +203,10 @@ public class MortuaryBrowser extends ModalJFrame{
             jNewButton.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent event) {
-                    mortuary=new Mortuary("","",0,0);;	//operation will reference the new record
+                    mortuary=new Mortuary("","",0,0);	//operation will reference the new record
+                    MortuaryEdit newrecord = new MortuaryEdit(myFrame, mortuary, true);
+                    newrecord.addMortuaryListener(MortuaryBrowser.this);
+                    newrecord.setVisible(true);
                 }
             });
         }
