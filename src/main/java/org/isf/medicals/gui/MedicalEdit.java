@@ -181,15 +181,15 @@ public class MedicalEdit extends JDialog {
 		if (dataPanel == null) {
 			dataPanel = new JPanel(new SpringLayout());
 
-			JLabel typeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.type"));
-			JLabel codeLabel = new JLabel(MessageBundle.getMessage("angal.common.code.txt"));
-			JLabel descLabel = new JLabel(MessageBundle.getMessage("angal.common.description.txt"));
-			JLabel pcsperpckLabel = new JLabel(MessageBundle.getMessage("angal.medicals.pcsperpck.txt"));
-			JLabel criticLabel = new JLabel(MessageBundle.getMessage("angal.medicals.criticallevel.txt"));
-			JLabel activeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.active.txt"));
-			JLabel shapeLabel = new JLabel(MessageBundle.getMessage("angal.common.shape.txt"));
-			JLabel conditioningLabel = new JLabel(MessageBundle.getMessage("angal.common.conditioning.txt"));
-			JLabel dosingLabel = new JLabel(MessageBundle.getMessage("angal.common.dosing.txt"));
+			JLabel typeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.type") + ':');
+			JLabel codeLabel = new JLabel(MessageBundle.getMessage("angal.common.code.txt") + ':');
+			JLabel descLabel = new JLabel(MessageBundle.getMessage("angal.common.description.txt") + ':');
+			JLabel pcsperpckLabel = new JLabel(MessageBundle.getMessage("angal.medicals.pcsperpck.txt") + ':');
+			JLabel criticLabel = new JLabel(MessageBundle.getMessage("angal.medicals.criticallevel.txt") + ':');
+			JLabel activeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.active.txt") + ':');
+			JLabel conditioningLabel = new JLabel(MessageBundle.getMessage("angal.medicals.conditioning") + ':');
+			JLabel shapeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.shape") + ':');
+			JLabel dosingLabel = new JLabel(MessageBundle.getMessage("angal.medicals.dosing") + ':');
 
 			dataPanel.add(typeLabel);
 			dataPanel.add(getTypeComboBox());
