@@ -60,7 +60,7 @@ import org.isf.utils.layout.SpringUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MedicalEdit extends JFrame {
+public class MedicalEdit extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -116,8 +116,8 @@ public class MedicalEdit extends JFrame {
 	private VoLimitedTextField codeTextField;
 	private VoDoubleTextField minQtiField;
 	private VoLimitedTextField conditioningTextField;
-	private VoLimitedTextField shapeTextField;
 	private VoLimitedTextField dosingTextField;
+	private VoLimitedTextField shapeTextField;
 	private JComboBox<MedicalType> typeComboBox;
 	private JCheckBox activeCheckbox;
 	private Medical oldMedical;
@@ -179,27 +179,17 @@ public class MedicalEdit extends JFrame {
 	 */
 	private JPanel getDataPanel() {
 		if (dataPanel == null) {
-			dataPanel = new JPanel();
-			dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+			dataPanel = new JPanel(new SpringLayout());
 
-			JLabel typeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.type") + ':');
-			typeLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel codeLabel = new JLabel(MessageBundle.getMessage("angal.common.code.txt") + ':');
-			codeLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel descLabel = new JLabel(MessageBundle.getMessage("angal.common.description.txt") + ':');
-			descLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel pcsperpckLabel = new JLabel(MessageBundle.getMessage("angal.medicals.pcsperpck.txt") + ':');
-			pcsperpckLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel criticLabel = new JLabel(MessageBundle.getMessage("angal.medicals.criticallevel.txt") + ':');
-			criticLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel conditioningLabel = new JLabel(MessageBundle.getMessage("angal.common.conditioning.txt") + ':');
-			conditioningLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel shapeLabel = new JLabel(MessageBundle.getMessage("angal.common.shape.txt") + ':');
-			shapeLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel dosingLabel = new JLabel(MessageBundle.getMessage("angal.common.dosing.txt") + ':');
-			dosingLabel.setAlignmentX(CENTER_ALIGNMENT);
-			JLabel activeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.active.txt") + ':');
-			activeLabel.setAlignmentX(CENTER_ALIGNMENT);
+			JLabel typeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.type"));
+			JLabel codeLabel = new JLabel(MessageBundle.getMessage("angal.common.code.txt"));
+			JLabel descLabel = new JLabel(MessageBundle.getMessage("angal.common.description.txt"));
+			JLabel pcsperpckLabel = new JLabel(MessageBundle.getMessage("angal.medicals.pcsperpck.txt"));
+			JLabel criticLabel = new JLabel(MessageBundle.getMessage("angal.medicals.criticallevel.txt"));
+			JLabel activeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.active.txt"));
+			JLabel shapeLabel = new JLabel(MessageBundle.getMessage("angal.common.shape.txt"));
+			JLabel conditioningLabel = new JLabel(MessageBundle.getMessage("angal.common.conditioning.txt"));
+			JLabel dosingLabel = new JLabel(MessageBundle.getMessage("angal.common.dosing.txt"));
 
 			dataPanel.add(typeLabel);
 			dataPanel.add(getTypeComboBox());
@@ -211,15 +201,15 @@ public class MedicalEdit extends JFrame {
 			dataPanel.add(getPcsperpckField());
 			dataPanel.add(criticLabel);
 			dataPanel.add(getMinQtiField());
-			dataPanel.add(conditioningLabel); 
-			dataPanel.add(getConditioningTextField());
-			dataPanel.add(shapeLabel); 
+			dataPanel.add(shapeLabel);
 			dataPanel.add(getShapeTextField());
-			dataPanel.add(dosingLabel); 
+			dataPanel.add(conditioningLabel);
+			dataPanel.add(getConditioningTextField());
+			dataPanel.add(dosingLabel);
 			dataPanel.add(getDosingTextField());
 			dataPanel.add(activeLabel);
 			dataPanel.add(getActiveField());
-			
+			SpringUtilities.makeCompactGrid(dataPanel, 9, 2, 5, 5, 5, 5);
 		}
 		return dataPanel;
 	}
@@ -434,6 +424,25 @@ public class MedicalEdit extends JFrame {
 	}
 	
 	/**
+	 * This method initializes shapeTextField
+	 * 
+	 * @return javax.swing.JTextField
+	 */
+	private VoLimitedTextField getShapeTextField() {
+		if (shapeTextField == null) {
+			if (insert) {
+				shapeTextField = new VoLimitedTextField(5);
+			} else {
+				shapeTextField = new VoLimitedTextField(5);
+				if (medical.getShape() != null ) {
+					shapeTextField.setText(medical.getShape());
+				}
+			}
+		}
+		return shapeTextField;
+	}
+	
+	/**
 	 * This method initializes conditioningTextField
 	 * 
 	 * @return javax.swing.JTextField
@@ -441,30 +450,16 @@ public class MedicalEdit extends JFrame {
 	private VoLimitedTextField getConditioningTextField() {
 		if (conditioningTextField == null) {
 			if (insert) {
-				conditioningTextField = new VoLimitedTextField(0, 3);
+				conditioningTextField = new VoLimitedTextField(5);
 			} else {
-				conditioningTextField = new VoLimitedTextField(0, 3);
-				conditioningTextField.setText(medical.getConditioning());
+				conditioningTextField = new VoLimitedTextField(5);
+				if (medical.getConditioning() != null ) {
+					conditioningTextField.setText(medical.getConditioning());
+				}
+				
 			}
 		}
 		return conditioningTextField;
-	}
-		
-	/**
-	 * This method initializes shapeTextField
-	 * 
-	 * @return javax.swing.JTextField
-	 */
-	private VoLimitedTextField getShapeTextField() {
-			if (shapeTextField == null) {
-				if (insert) {
-					shapeTextField = new VoLimitedTextField(0, 3);
-				} else {
-					shapeTextField = new VoLimitedTextField(0, 3);
-					shapeTextField.setText(medical.getShape());
-				}
-			}
-			return codeTextField;
 	}
 	
 	/**
@@ -475,14 +470,17 @@ public class MedicalEdit extends JFrame {
 	private VoLimitedTextField getDosingTextField() {
 		if (dosingTextField == null) {
 			if (insert) {
-				dosingTextField = new VoLimitedTextField(0, 3);
+				dosingTextField = new VoLimitedTextField(5);
 			} else {
-				dosingTextField = new VoLimitedTextField(0, 3);
-				dosingTextField.setText(medical.getDosing());
+				dosingTextField = new VoLimitedTextField(5);
+				if (medical.getDosing() != null ) {
+					dosingTextField.setText(medical.getDosing());
+				}
+				
 			}
 		}
 		return dosingTextField;
-	}
+	}	
 	
 	private JTextField getMinQtiField() {
 		if (minQtiField == null) {
