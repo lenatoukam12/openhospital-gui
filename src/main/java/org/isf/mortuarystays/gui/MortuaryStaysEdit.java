@@ -19,10 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package org.isf.mortuary.gui;
+package org.isf.mortuarystays.gui;
 
 
-import java.awt.event.ActionListener;
 import java.util.EventListener;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -41,70 +40,71 @@ import javax.swing.JTextField;
 
 import org.isf.generaldata.MessageBundle;
 import org.isf.menu.manager.Context;
-import org.isf.mortuary.manager.MortuaryBrowserManager;
-import org.isf.mortuary.model.Mortuary;
+import org.isf.mortuarystays.manager.MortuaryStaysBrowserManager;
+import org.isf.mortuarystays.model.MortuaryStays;
 import org.isf.utils.exception.OHServiceException;
 import org.isf.utils.exception.gui.OHServiceExceptionUtil;
 import org.isf.utils.jobjects.MessageDialog;
 import org.isf.utils.jobjects.VoLimitedTextField;
-import org.isf.ward.gui.WardEdit;
 
-public class MortuaryEdit extends JDialog {
+public class MortuaryStaysEdit extends JDialog {
     private static final long serialVersionUID = 1L;
-    private EventListenerList mortuaryListeners = new EventListenerList();
+    private EventListenerList mortuaryStaysListeners = new EventListenerList();
 
-    public interface MortuaryListener extends EventListener {
+    public interface MortuaryStaysListener extends EventListener {
 
-        void mortuaryUpdated(AWTEvent e);
+        void mortuaryStaysUpdated(AWTEvent e);
 
-        void mortuaryInserted(AWTEvent e);
+        void mortuaryStaysInserted(AWTEvent e);
     }
 
-    public void addMortuaryListener(MortuaryListener l) {
-        mortuaryListeners.add(MortuaryListener.class, l);
+    public void addMortuaryStaysListener(MortuaryStaysListener l) {
+        mortuaryStaysListeners.add(MortuaryStaysListener.class, l);
     }
 
-    public void removeMortuaryListener(MortuaryListener listener) {
-        mortuaryListeners.add(MortuaryListener.class, listener);
+    public void removeMortuaryStaysListener(MortuaryStaysListener listener) {
+        mortuaryStaysListeners.add(MortuaryStaysListener.class, listener);
     }
 
-    private void fireMortuaryInserted() {
+    private void fireMortuaryStaysInserted() {
         AWTEvent event = new AWTEvent(new Object(), AWTEvent.RESERVED_ID_MAX + 1) {
 
             private static final long serialVersionUID = 1L;
         };
 
-        EventListener[] listeners = mortuaryListeners.getListeners(org.isf.mortuary.gui.MortuaryEdit.MortuaryListener.class);
+        EventListener[] listeners = mortuaryStaysListeners.getListeners(MortuaryStaysEdit.MortuaryStaysListener.class);
         for (EventListener listener : listeners) {
-            ((org.isf.mortuary.gui.MortuaryEdit.MortuaryListener) listener).mortuaryInserted(event);
+            ((MortuaryStaysEdit.MortuaryStaysListener) listener).mortuaryStaysInserted(event);
         }
     }
 
-    private void fireMortuaryUpdated() {
+    private void fireMortuaryStaysUpdated() {
         AWTEvent event = new AWTEvent(new Object(), AWTEvent.RESERVED_ID_MAX + 1) {
 
             private static final long serialVersionUID = 1L;
         };
 
-        EventListener[] listeners = mortuaryListeners.getListeners(org.isf.mortuary.gui.MortuaryEdit.MortuaryListener.class);
+        EventListener[] listeners = mortuaryStaysListeners.getListeners(MortuaryStaysEdit.MortuaryStaysListener.class);
         for (EventListener listener : listeners) {
-            ((org.isf.mortuary.gui.MortuaryEdit.MortuaryListener) listener).mortuaryUpdated(event);
+            ((MortuaryStaysEdit.MortuaryStaysListener) listener).mortuaryStaysUpdated(event);
         }
     }
 
-    private MortuaryBrowserManager mortuaryBrowserManager = Context.getApplicationContext().getBean(MortuaryBrowserManager.class);
+    private MortuaryStaysBrowserManager mortuaryStaysBrowserManager = Context.getApplicationContext().getBean(MortuaryStaysBrowserManager.class);
 
     private JPanel jContentPane;
     private JPanel dataPanel;
     private JPanel buttonPanel;
     private JButton cancelButton;
     private JButton okButton;
+    private JTextField nameTextField;
     private JTextField descriptionTextField;
     private JTextField codeTextField;
     private JTextField maxDTextField;
     private JTextField minDTextField;
-    private Mortuary mortuary;
+    private MortuaryStays mortuaryStays;
     private boolean insert;
+    private String name;
     private String code;
     private String desc;
     private int maxD;
@@ -116,10 +116,10 @@ public class MortuaryEdit extends JDialog {
      * (because it is a jdialog), the arraylist and the selected
      * row because we need to update them
      */
-    public MortuaryEdit(JFrame parent, Mortuary old, boolean inserting) {
+    public MortuaryStaysEdit(JFrame parent, MortuaryStays old, boolean inserting) {
         super(parent, true);
         insert = inserting;
-        mortuary = old;        //operation will be used for every operation
+        mortuaryStays = old;        //operation will be used for every operation
         initialize();
     }
 
@@ -129,9 +129,9 @@ public class MortuaryEdit extends JDialog {
     private void initialize() {
         this.setContentPane(getJContentPane());
         if (insert) {
-            this.setTitle(MessageBundle.getMessage("angal.mortuary.newmortuary.title"));
+            this.setTitle(MessageBundle.getMessage("angal.mortuarystays.newmortuarystays.title"));
         } else {
-            this.setTitle(MessageBundle.getMessage("angal.mortuary.editmortuary.title"));
+            this.setTitle(MessageBundle.getMessage("angal.mortuarystays.editmortuarystays.title"));
         }
         pack();
         setLocationRelativeTo(null);
@@ -178,53 +178,67 @@ public class MortuaryEdit extends JDialog {
             gbcCodeTextField.gridy = 0;
             dataPanel.add(getCodeTextField(), gbcCodeTextField);
 
-            JLabel descLabel = new JLabel(MessageBundle.getMessage("angal.mortuary.nameedit"));
+            JLabel nameLabel = new JLabel(MessageBundle.getMessage("angal.mortuarystays.nameedit.txt"));
+            GridBagConstraints gbcNameLabel = new GridBagConstraints();
+            gbcNameLabel.anchor = GridBagConstraints.WEST;
+            gbcNameLabel.insets = new Insets(0, 0, 5, 5);
+            gbcNameLabel.gridx = 0;
+            gbcNameLabel.gridy = 1;
+            dataPanel.add(nameLabel, gbcNameLabel);
+            GridBagConstraints gbcNameTextField = new GridBagConstraints();
+            gbcNameTextField.fill = GridBagConstraints.HORIZONTAL;
+            gbcNameTextField.insets = new Insets(0, 0, 5, 0);
+            gbcNameTextField.gridx = 1;
+            gbcNameTextField.gridy = 1;
+            dataPanel.add(getNameTextField(), gbcNameTextField);
+
+            JLabel descLabel = new JLabel(MessageBundle.getMessage("angal.mortuarystays.descriptionedit.txt"));
             GridBagConstraints gbcDescLabel = new GridBagConstraints();
             gbcDescLabel.anchor = GridBagConstraints.WEST;
             gbcDescLabel.insets = new Insets(0, 0, 5, 5);
             gbcDescLabel.gridx = 0;
-            gbcDescLabel.gridy = 1;
+            gbcDescLabel.gridy = 2;
             dataPanel.add(descLabel, gbcDescLabel);
             GridBagConstraints gbcDescriptionTextField = new GridBagConstraints();
             gbcDescriptionTextField.fill = GridBagConstraints.HORIZONTAL;
             gbcDescriptionTextField.insets = new Insets(0, 0, 5, 0);
             gbcDescriptionTextField.gridx = 1;
-            gbcDescriptionTextField.gridy = 1;
+            gbcDescriptionTextField.gridy = 2;
             dataPanel.add(getDescriptionTextField(), gbcDescriptionTextField);
 
             GridBagConstraints gbcMinDTextField = new GridBagConstraints();
             gbcMinDTextField.insets = new Insets(0, 0, 5, 0);
             gbcMinDTextField.gridx = 1;
-            gbcMinDTextField.gridy = 2;
+            gbcMinDTextField.gridy = 3;
             dataPanel.add(getMinDTextField(), gbcMinDTextField);
-            JLabel minDLabel = new JLabel(MessageBundle.getMessage("angal.mortuary.mindays.txt"));
+            JLabel minDLabel = new JLabel(MessageBundle.getMessage("angal.mortuarystays.mindays.txt"));
             GridBagConstraints gbcMinDLabel = new GridBagConstraints();
             gbcMinDLabel.anchor = GridBagConstraints.WEST;
             gbcMinDLabel.insets = new Insets(0, 0, 5, 5);
             gbcMinDLabel.gridx = 0;
-            gbcMinDLabel.gridy = 2;
+            gbcMinDLabel.gridy = 3;
             dataPanel.add(minDLabel, gbcMinDLabel);
 
-            JLabel maxDLabel = new JLabel(MessageBundle.getMessage("angal.mortuary.maxdays.txt"));
+            JLabel maxDLabel = new JLabel(MessageBundle.getMessage("angal.mortuarystays.maxdays.txt"));
             GridBagConstraints gbcMaxDLabel = new GridBagConstraints();
             gbcMaxDLabel.anchor = GridBagConstraints.WEST;
             gbcMaxDLabel.insets = new Insets(0, 0, 5, 5);
             gbcMaxDLabel.gridx = 0;
-            gbcMaxDLabel.gridy = 3;
+            gbcMaxDLabel.gridy = 4;
             dataPanel.add(maxDLabel, gbcMaxDLabel);
             GridBagConstraints gbcMaxDTextField = new GridBagConstraints();
             gbcMaxDTextField.fill = GridBagConstraints.HORIZONTAL;
             gbcMaxDTextField.insets = new Insets(0, 0, 5, 0);
             gbcMaxDTextField.gridx = 1;
-            gbcMaxDTextField.gridy = 3;
+            gbcMaxDTextField.gridy = 4;
             dataPanel.add(getMaxDTextField(), gbcMaxDTextField);
 
-            JLabel requiredLabel = new JLabel(MessageBundle.getMessage("angal.mortuary.requiredfields"));
+            JLabel requiredLabel = new JLabel(MessageBundle.getMessage("angal.mortuarystays.requiredfields.txt"));
             GridBagConstraints gbcRequiredLabel = new GridBagConstraints();
             gbcRequiredLabel.gridwidth = 2;
             gbcRequiredLabel.anchor = GridBagConstraints.EAST;
             gbcRequiredLabel.gridx = 0;
-            gbcRequiredLabel.gridy = 13;
+            gbcRequiredLabel.gridy = 5;
             dataPanel.add(requiredLabel, gbcRequiredLabel);
         }
         return dataPanel;
@@ -282,8 +296,8 @@ public class MortuaryEdit extends JDialog {
                     }
 
                     try {
-                        if (mortuaryBrowserManager.isCodePresent(code)) {
-                            MessageDialog.error(this, "angal.mortuary.codealreadyinuse.msg");
+                        if (mortuaryStaysBrowserManager.isCodePresent(code)) {
+                            MessageDialog.error(this, "angal.mortuarystays.codealreadyinuse.msg");
                             return;
                         }
                     } catch (OHServiceException e) {
@@ -296,61 +310,67 @@ public class MortuaryEdit extends JDialog {
                     MessageDialog.error(this, "angal.common.pleaseinsertavaliddescription.msg");
                     return;
                 }
+                name = nameTextField.getText().trim();
+                if(name.isEmpty()){
+                    MessageDialog.error(this, "angal.common.pleaseinsertavalidname.msg");
+                    return;
+                }
                 try {
                     minD = Integer.parseInt(minDTextField.getText());
                 } catch (NumberFormatException f) {
-                    MessageDialog.error(this, "angal.mortuary.insertavalidmindnumber");
+                    MessageDialog.error(this, "angal.mortuarystays.insertavalidmindnumber.msg");
                     return;
                 }
                 if (minD < 0) {
-                    MessageDialog.error(this, "angal.mortuary.insertavalidmindnumber");
+                    MessageDialog.error(this, "angal.mortuarystays.insertavalidmindnumber.msg");
                     return;
                 }
                 try {
                     maxD = Integer.parseInt(maxDTextField.getText());
                 } catch (NumberFormatException f) {
-                    MessageDialog.error(this, "angal.mortuaty.insertavalidmaxdnumber");
+                    MessageDialog.error(this, "angal.mortuatystays.insertavalidmaxdnumber.msg");
                     return;
                 }
                 if (maxD < 0) {
-                    MessageDialog.error(this, "angal.mortuaty.insertavalidmaxdnumber");
+                    MessageDialog.error(this, "angal.mortuatystays.insertavalidmaxdnumber.msg");
                     return;
                 }
                 if(minD >= maxD){
-                    MessageDialog.error(this, "angal.mortuary.insertcoherencemaxminvalues");
+                    MessageDialog.error(this, "angal.mortuarystays.insertcoherencemaxminvalues.msg");
                     return;
                 }
 
-                mortuary.setDescription(desc);
-                mortuary.setCode(codeTextField.getText());
-                mortuary.setDaysMin(minD);
-                mortuary.setDaysMax(maxD);
+                mortuaryStays.setDescription(desc);
+                mortuaryStays.setName(name);
+                mortuaryStays.setCode(codeTextField.getText());
+                mortuaryStays.setDaysMin(minD);
+                mortuaryStays.setDaysMax(maxD);
 
                 boolean result = false;
-                Mortuary savedMortuary;
+                MortuaryStays savedMortuaryStays;
                 if (insert) { // inserting
                     try {
-                        savedMortuary = mortuaryBrowserManager.newMortuary(mortuary);
-                        if (savedMortuary != null) {
+                        savedMortuaryStays = mortuaryStaysBrowserManager.newMortuaryStays(mortuaryStays);
+                        if (savedMortuaryStays != null) {
                             result = true;
                         }
                     } catch (OHServiceException ex) {
                         OHServiceExceptionUtil.showMessages(ex);
                     }
                     if (result) {
-                        fireMortuaryInserted();
+                        fireMortuaryStaysInserted();
                     }
                 } else {
                     try { // updating
-                        savedMortuary = mortuaryBrowserManager.updateMortuary(mortuary);
-                        if (savedMortuary != null) {
+                        savedMortuaryStays = mortuaryStaysBrowserManager.update(mortuaryStays);
+                        if (savedMortuaryStays != null) {
                             result = true;
                         }
                     } catch (OHServiceException ex) {
                         OHServiceExceptionUtil.showMessages(ex);
                     }
                     if (result) {
-                        fireMortuaryUpdated();
+                        fireMortuaryStaysUpdated();
                     }
                 }
                 if (!result) {
@@ -365,6 +385,21 @@ public class MortuaryEdit extends JDialog {
     }
 
     /**
+     * This method initializes nameTextField
+     *
+     * @return javax.swing.JTextField
+     */
+    private JTextField getNameTextField() {
+        if (nameTextField == null) {
+            nameTextField = new VoLimitedTextField(50);
+            if (!insert) {
+                nameTextField.setText(mortuaryStays.getName());
+            }
+        }
+        return nameTextField;
+    }
+
+    /**
      * This method initializes descriptionTextField
      *
      * @return javax.swing.JTextField
@@ -373,7 +408,7 @@ public class MortuaryEdit extends JDialog {
         if (descriptionTextField == null) {
             descriptionTextField = new VoLimitedTextField(50);
             if (!insert) {
-                descriptionTextField.setText(mortuary.getDescription());
+                descriptionTextField.setText(mortuaryStays.getDescription());
             }
         }
         return descriptionTextField;
@@ -388,7 +423,7 @@ public class MortuaryEdit extends JDialog {
         if (codeTextField == null) {
             codeTextField = new VoLimitedTextField(11, 20);
             if (!insert) {
-                codeTextField.setText(mortuary.getCode());
+                codeTextField.setText(mortuaryStays.getCode());
                 codeTextField.setEnabled(false);
             }
         }
@@ -404,7 +439,7 @@ public class MortuaryEdit extends JDialog {
         if (minDTextField == null) {
             minDTextField = new VoLimitedTextField(50, 20);
             if (!insert) {
-                minDTextField.setText(String.valueOf(mortuary.getDaysMin()));
+                minDTextField.setText(String.valueOf(mortuaryStays.getDaysMin()));
             }
         }
         return minDTextField;
@@ -419,7 +454,7 @@ public class MortuaryEdit extends JDialog {
         if (maxDTextField == null) {
             maxDTextField = new VoLimitedTextField(50, 20);
             if (!insert) {
-                maxDTextField.setText(String.valueOf(mortuary.getDaysMax()));
+                maxDTextField.setText(String.valueOf(mortuaryStays.getDaysMax()));
             }
         }
         return maxDTextField;
