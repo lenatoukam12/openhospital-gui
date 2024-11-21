@@ -44,7 +44,6 @@ import org.isf.utils.exception.gui.OHServiceExceptionUtil;
 import org.isf.utils.jobjects.MessageDialog;
 import org.isf.utils.jobjects.ModalJFrame;
 import org.isf.mortuarystays.model.MortuaryStays;
-import org.isf.mortuarystays.gui.MortuaryStaysEdit.MortuaryStaysListener;
 
 /**
  * This class shows a list of wards.
@@ -53,27 +52,9 @@ import org.isf.mortuarystays.gui.MortuaryStaysEdit.MortuaryStaysListener;
  * @author Rick
  *
  */
-public class MortuaryStaysBrowser extends ModalJFrame implements MortuaryStaysListener {
+public class MortuaryStaysBrowser extends ModalJFrame {
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public void mortuaryStaysInserted(AWTEvent e) {
-        pMortuaryStays.add(0, mortuaryStays);
-        ((MortuaryStaysBrowser.MortuaryStaysBrowserModel) table.getModel()).fireTableDataChanged();
-        if (table.getRowCount() > 0) {
-            table.setRowSelectionInterval(0, 0);
-        }
-    }
-
-    @Override
-    public void mortuaryStaysUpdated(AWTEvent e) {
-        pMortuaryStays.set(selectedrow, mortuaryStays);
-        ((MortuaryStaysBrowser.MortuaryStaysBrowserModel) table.getModel()).fireTableDataChanged();
-        table.updateUI();
-        if (table.getRowCount() > 0 && selectedrow > -1) {
-            table.setRowSelectionInterval(selectedrow, selectedrow);
-        }
-    }
 
     private int pfrmBase = 10;
     private int pfrmWidth = 8;
@@ -179,9 +160,7 @@ public class MortuaryStaysBrowser extends ModalJFrame implements MortuaryStaysLi
                     }else {
                         selectedrow = table.getSelectedRow();
                         mortuaryStays = (MortuaryStays) model.getValueAt(table.getSelectedRow(), -1);
-                        MortuaryStaysEdit editrecord = new MortuaryStaysEdit(myFrame, mortuaryStays, false);
-                        editrecord.addMortuaryStaysListener(MortuaryStaysBrowser.this);
-                        editrecord.setVisible(true);
+
                     }
                 }
             });
@@ -204,9 +183,7 @@ public class MortuaryStaysBrowser extends ModalJFrame implements MortuaryStaysLi
 
                 public void actionPerformed(ActionEvent event) {
                     mortuaryStays = new MortuaryStays("","", "",0,0);	//operation will reference the new record
-                    MortuaryStaysEdit newrecord = new MortuaryStaysEdit(myFrame, mortuaryStays, true);
-                    newrecord.addMortuaryStaysListener(MortuaryStaysBrowser.this);
-                    newrecord.setVisible(true);
+
                 }
             });
         }
