@@ -37,8 +37,9 @@ import org.isf.patient.model.Patient;
 //import org.isf.pregnancy.manager.PregnancyCareManager;
 //import org.isf.pregnancy.manager.PregnancyDeliveryManager;
 //import org.isf.pregnancy.model.PregnancyVisit;
+import org.isf.utils.jobjects.ModalJFrame;
 
-public class PregnancyCareBrowser extends JFrame implements PatientInsert.PatientListener, PatientInsertExtended.PatientListener, PregnancyEdit.PregnancyListener , AdmissionListener{
+public class PregnancyBrowser extends ModalJFrame implements PatientInsert.PatientListener, PatientInsertExtended.PatientListener, AdmissionListener{
 
 
 	private String[] pColums = {
@@ -55,7 +56,7 @@ public class PregnancyCareBrowser extends JFrame implements PatientInsert.Patien
 	
 	private int[] vColumwidth = { 20, 40, 40, 220 };
 	private static final long serialVersionUID = 1L;
-	private PregnancyCareBrowser myFrame = null;
+	private PregnancyBrowser myFrame = null;
 	private List<AdmittedPatient> pregnancyPatientList = null;
 	List<AdmittedPatient> patientList = new  ArrayList<AdmittedPatient>();
 //	private List<PregnancyVisit> pregnancyvisits = null;
@@ -86,26 +87,54 @@ public class PregnancyCareBrowser extends JFrame implements PatientInsert.Patien
 	private static int PAGE_SIZE = 50;
 	private int START_INDEX = 0;
 	private int TOTAL_ROWS;
+	
+	@Override
+	public void patientInserted(AWTEvent event) {
+	    // Implémentation de la logique pour gérer un patient inséré
+	}
+
+	@Override
+	public void admissionInserted(AWTEvent event) {
+	    // Implémentation de la logique pour gérer une admission insérée
+	}
+
+	@Override
+	public void patientUpdated(AWTEvent event) {
+	    // Implémentation de la logique pour gérer un patient mis à jour
+	}
+
+	@Override
+	public void admissionUpdated(AWTEvent event) {
+	    // Implémentation de la logique pour gérer une admission mise à jour
+	}
+
+	
 	/**
-	 * Constructor called from the main menu
+	 * This method initializes
 	 */
-	public PregnancyCareBrowser() {
-		setTitle(MessageBundle.getMessage("angal.pregnancy.patientsbrowser"));
+	public PregnancyBrowser() {
+		super();
 		myFrame = this;
-//		pregnancyvisits = new List<PregnancyVisit>();
-//		initComponents();
-		pack();
-		setLocationRelativeTo(null);
-		this.setVisible(true);
 		myFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				// to free memory
 				if (pregnancyPatientList != null)
 					pregnancyPatientList.clear();
-//				if (pregnancyvisits != null)
-//					pregnancyvisits.clear();
 				dispose();
 			}
 		});
+		initialize();
+		setLocationRelativeTo(null);
+	}
+	
+	/**
+	 * This method initializes this
+	 */
+	private void initialize() {
+		this.setTitle(MessageBundle.getMessage("angal.pregnancy.patientsbrowser.title"));
+//		this.setContentPane(getJContainPanel());
+//		this.setMinimumSize(new Dimension(400 + getJTableWidth(), 700));
+//		rowCounter.setText(rowCounterText + pSur.size());
+		validate();
 	}
 }
