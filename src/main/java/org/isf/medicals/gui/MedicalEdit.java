@@ -189,7 +189,7 @@ public class MedicalEdit extends JDialog {
 			JLabel activeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.active.txt") + ':');
 			JLabel conditioningLabel = new JLabel(MessageBundle.getMessage("angal.medicals.conditioning.label") + ':');
 			JLabel shapeLabel = new JLabel(MessageBundle.getMessage("angal.medicals.shape") + ':');
-			JLabel dosingLabel = new JLabel(MessageBundle.getMessage("angal.medicals.dosing") + ':');
+			JLabel dosingLabel = new JLabel(MessageBundle.getMessage("angal.medicals.dosing.label") + ':');
 
 			dataPanel.add(typeLabel);
 			dataPanel.add(getTypeComboBox());
