@@ -499,7 +499,7 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 
 			public void actionPerformed(ActionEvent event) {
 				if (patientTable.getSelectedRow() < 0) {
-					JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.pregnancy.pleaseselectpatient"),
+					JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.pregnancy.pleaseselectpatient.mg"),
 							MessageBundle.getMessage("angal.admission.editpatient"), JOptionPane.PLAIN_MESSAGE);
 					return;
 				}
@@ -675,7 +675,7 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 
 				public void actionPerformed(ActionEvent e) {
 					if (patientTable.getSelectedRow() < 0) {
-						JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.common.pleaseselectarow.mg"),
+						JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.common.pleaseselectarow.msg"),
 								MessageBundle.getMessage("angal.admission.editpatient"), JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -696,7 +696,7 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 
 				public void actionPerformed(ActionEvent e) {
 					if (patientTable.getSelectedRow() < 0) {
-						JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.common.pleaseselectarow.mg"),
+						JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.common.pleaseselectarow.msg"),
 								MessageBundle.getMessage("angal.admission.editpatient"), JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
