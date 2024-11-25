@@ -8,7 +8,6 @@ package org.isf.pregnancy.gui;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -43,7 +42,6 @@ import org.isf.admission.model.Admission;
 import org.isf.admission.model.AdmittedPatient;
 import org.isf.generaldata.MessageBundle;
 import org.isf.menu.gui.MainMenu;
-//import org.isf.parameters.manager.Param;
 import org.isf.patient.gui.PatientInsert;
 import org.isf.patient.gui.PatientInsertExtended;
 import org.isf.patient.model.Patient;
@@ -75,10 +73,10 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 	private JButton editPatientButton = null;
 	private JButton deletePatientButton = null;
 
-	JButton next  = null;
-	JButton previous  = null;
-	JComboBox pagesCombo  = null;
-	JLabel under = new JLabel("/ 0 Page");
+	private JButton next  = null;
+	private JButton previous  = null;
+	private JComboBox pagesCombo  = null;
+	private JLabel under = new JLabel("/ 0 Page");
 	private static int PAGE_SIZE = 50;
 	private int START_INDEX = 0;
 	private int TOTAL_ROWS;
@@ -115,49 +113,7 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 			}
 		});
 	}
-	
-	public JButton getNextButton() {
-		if (next == null) {
-			next = new JButton(
-					MessageBundle.getMessage("angal.visit.nextarrow.btn"));
-			next.setPreferredSize(new Dimension(30, 21));
-			next.setMnemonic(KeyEvent.VK_X);
-			next.addActionListener(actionEvent -> {
-					if (!previous.isEnabled())
-						previous.setEnabled(true);
-					START_INDEX += PAGE_SIZE;
-	            	model = new PregnancyPatientBrowserModel(null, START_INDEX, PAGE_SIZE);
-					if ((START_INDEX + PAGE_SIZE) > TOTAL_ROWS) {
-						next.setEnabled(false);
-					}
-					pagesCombo.setSelectedItem(START_INDEX / PAGE_SIZE + 1);
-					model.fireTableDataChanged();
-					patientTable.updateUI();
-			});
-		}
-		return next;
-	}
-	
-	public JButton getPreviousButton() {
-		if (previous == null) {
-			previous = new JButton(MessageBundle.getMessage("angal.visit.arrowprevious.btn"));
-			previous.setPreferredSize(new Dimension(30, 21));
-			previous.setMnemonic(KeyEvent.VK_P);
-			previous.addActionListener(actionEvent -> {
-				if (!next.isEnabled())
-					next.setEnabled(true);                             
-				START_INDEX -= PAGE_SIZE;
-        		model = new PregnancyPatientBrowserModel(null, START_INDEX, PAGE_SIZE);
-				if (START_INDEX < PAGE_SIZE)
-					previous.setEnabled(false);
-				pagesCombo.setSelectedItem(START_INDEX / PAGE_SIZE + 1);
-				model.fireTableDataChanged();
-				patientTable.updateUI();
-				}
-			);
-		}
-		return previous;
-	}
+
 
 	/**
 	 * constructor for the AdmissionBrowser to see only the pregnancyvisits for the
@@ -207,6 +163,50 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 		dataPatientListPanel.add(getPatientScrollPane(), BorderLayout.CENTER);
 		dataPatientListPanel.add(getPatientButtonPanel(), BorderLayout.EAST);
 		return dataPatientListPanel;
+	}
+	
+	
+	public JButton getNextButton() {
+		if (next == null) {
+			next = new JButton(
+					MessageBundle.getMessage("angal.visit.nextarrow.btn"));
+			next.setPreferredSize(new Dimension(30, 21));
+			next.setMnemonic(KeyEvent.VK_X);
+			next.addActionListener(actionEvent -> {
+					if (!previous.isEnabled())
+						previous.setEnabled(true);
+					START_INDEX += PAGE_SIZE;
+	            	model = new PregnancyPatientBrowserModel(null, START_INDEX, PAGE_SIZE);
+					if ((START_INDEX + PAGE_SIZE) > TOTAL_ROWS) {
+						next.setEnabled(false);
+					}
+					pagesCombo.setSelectedItem(START_INDEX / PAGE_SIZE + 1);
+					model.fireTableDataChanged();
+					patientTable.updateUI();
+			});
+		}
+		return next;
+	}
+	
+	public JButton getPreviousButton() {
+		if (previous == null) {
+			previous = new JButton(MessageBundle.getMessage("angal.visit.arrowprevious.btn"));
+			previous.setPreferredSize(new Dimension(30, 21));
+			previous.setMnemonic(KeyEvent.VK_P);
+			previous.addActionListener(actionEvent -> {
+				if (!next.isEnabled())
+					next.setEnabled(true);                             
+				START_INDEX -= PAGE_SIZE;
+        		model = new PregnancyPatientBrowserModel(null, START_INDEX, PAGE_SIZE);
+				if (START_INDEX < PAGE_SIZE)
+					previous.setEnabled(false);
+				pagesCombo.setSelectedItem(START_INDEX / PAGE_SIZE + 1);
+				model.fireTableDataChanged();
+				patientTable.updateUI();
+				}
+			);
+		}
+		return previous;
 	}
 
 	private JComboBox getComboBoxPages() {
@@ -389,7 +389,6 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 		deletePatientButton.setMaximumSize(new Dimension(buttonsize + 150, 30));
 		buttonPanel.add(newPatientButton);
 		buttonPanel.add(editPatientButton);
-
 		buttonPanel.add(deletePatientButton);
 		// in the case the browser is opened from the admission
 		return buttonPanel;
@@ -469,7 +468,6 @@ public class PregnancyBrowser extends JFrame implements PatientInsert.PatientLis
 			buttonPanel.add(getJButtonExams());
 		if (MainMenu.checkUserGrants("patientvaccine"))
 			buttonPanel.add(getJButtonVaccin());
-		// buttonPanel.add(getJButtonVaccin());
 		buttonPanel.add(getButtonDeleteVisit());
 		buttonPanel.add(getReportButton());
 		buttonPanel.add(getButtonClose());
