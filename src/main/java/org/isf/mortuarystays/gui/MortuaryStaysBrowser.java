@@ -24,7 +24,6 @@ package org.isf.mortuarystays.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +42,7 @@ import org.isf.utils.exception.OHServiceException;
 import org.isf.utils.exception.gui.OHServiceExceptionUtil;
 import org.isf.utils.jobjects.MessageDialog;
 import org.isf.utils.jobjects.ModalJFrame;
-import org.isf.mortuarystays.model.MortuaryStays;
+import org.isf.mortuarystays.model.MortuaryStay;
 
 /**
  * This class shows a list of wards.
@@ -78,8 +77,8 @@ public class MortuaryStaysBrowser extends ModalJFrame {
     private int[] pColumwidth = {50, 80, 90, 30, 30};
     private Class[] pColumnClass = {String.class, String.class, String.class, int.class, int.class};
     private int selectedrow;
-    private List<MortuaryStays> mortuaryStaysList;
-    private MortuaryStays mortuaryStays;
+    private List<MortuaryStay> mortuaryStaysList;
+    private MortuaryStay mortuaryStay;
     private final JFrame myFrame;
     private MortuaryStaysBrowserManager mortuaryStaysManager = Context.getApplicationContext().getBean(MortuaryStaysBrowserManager.class);
 
@@ -106,8 +105,7 @@ public class MortuaryStaysBrowser extends ModalJFrame {
         pfrmBordY = (screensize.height - (screensize.height / pfrmBase * pfrmHeight)) / 2;
         this.setBounds(pfrmBordX,pfrmBordY,screensize.width / pfrmBase * pfrmWidth,screensize.height / pfrmBase * pfrmHeight);
         this.setContentPane(getJContentPane());
-        this.setLocationRelativeTo(null);
-        pack();
+        this.setLocationRelativeTo(this);
 
     }
 
@@ -159,7 +157,7 @@ public class MortuaryStaysBrowser extends ModalJFrame {
                         MessageDialog.error(null, "angal.common.pleaseselectarow.msg");
                     }else {
                         selectedrow = table.getSelectedRow();
-                        mortuaryStays = (MortuaryStays) model.getValueAt(table.getSelectedRow(), -1);
+                        mortuaryStay = (MortuaryStay) model.getValueAt(table.getSelectedRow(), -1);
 
                     }
                 }
@@ -181,7 +179,7 @@ public class MortuaryStaysBrowser extends ModalJFrame {
             jNewButton.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent event) {
-                    mortuaryStays = new MortuaryStays("","", "",0,0);	//operation will reference the new record
+                    mortuaryStay = new MortuaryStay("","", "",0,0);	//operation will reference the new record
 
                 }
             });
@@ -201,9 +199,9 @@ public class MortuaryStaysBrowser extends ModalJFrame {
             jDeleteButton.setMnemonic(MessageBundle.getMnemonic("angal.common.delete.btn.key"));
             jDeleteButton.addActionListener(actionEvent -> {
                 if (table.getSelectedRow() < 0) {
-                    MessageDialog.error(this, "angal.common.pleaseselectarow.msg");
+                    MessageDialog.info(this, "angal.common.pleaseselectarow.msg");
                 } else {
-                    MortuaryStays mortuaryStays = (MortuaryStays) model.getValueAt(table.getSelectedRow(), -1);
+                    MortuaryStay mortuaryStays = (MortuaryStay) model.getValueAt(table.getSelectedRow(), -1);
                     int answer = MessageDialog.yesNo(this, "angal.mortuarystays.deletemortuarystays.fmt.msg", mortuaryStays.getDescription());
                     try {
                         if (answer == JOptionPane.YES_OPTION) {
@@ -273,16 +271,12 @@ public class MortuaryStaysBrowser extends ModalJFrame {
 
     class MortuaryStaysBrowserModel extends DefaultTableModel {
 
-        /**
-         *
-         */
         private static final long serialVersionUID = 1L;
 
         public MortuaryStaysBrowserModel() {
             try {
-                mortuaryStaysList = mortuaryStaysManager.getMortuariesStays();
+                mortuaryStaysList = mortuaryStaysManager.getAll();
             } catch (OHServiceException e) {
-                mortuaryStaysList = new ArrayList<>();
                 OHServiceExceptionUtil.showMessages(e);
             }
 
@@ -308,7 +302,7 @@ public class MortuaryStaysBrowser extends ModalJFrame {
 
         @Override
         public Object getValueAt(int r, int c) {
-            MortuaryStays mortuaryStays = mortuaryStaysList.get(r);
+            MortuaryStay mortuaryStays = mortuaryStaysList.get(r);
             if (c == 0) {
                 return mortuaryStays.getCode();
             } else if (c == -1) {
@@ -325,16 +319,12 @@ public class MortuaryStaysBrowser extends ModalJFrame {
             return null;
         }
 
-        /* (non-Javadoc)
-         * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
-         */
         @Override
         public Class<?> getColumnClass(int columnIndex) {
             return pColumnClass[columnIndex];
         }
         @Override
         public boolean isCellEditable(int arg0, int arg1) {
-            //return super.isCellEditable(arg0, arg1);
             return false;
         }
     }
