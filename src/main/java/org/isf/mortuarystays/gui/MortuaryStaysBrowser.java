@@ -37,7 +37,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.isf.generaldata.MessageBundle;
 import org.isf.menu.manager.Context;
-import org.isf.mortuarystays.manager.MortuaryStaysBrowserManager;
+import org.isf.mortuarystays.manager.MortuaryStayManager;
 import org.isf.utils.exception.OHServiceException;
 import org.isf.utils.exception.gui.OHServiceExceptionUtil;
 import org.isf.utils.jobjects.MessageDialog;
@@ -80,7 +80,7 @@ public class MortuaryStaysBrowser extends ModalJFrame {
     private List<MortuaryStay> mortuaryStaysList;
     private MortuaryStay mortuaryStay;
     private final JFrame myFrame;
-    private MortuaryStaysBrowserManager mortuaryStaysManager = Context.getApplicationContext().getBean(MortuaryStaysBrowserManager.class);
+    private MortuaryStayManager mortuaryStaysManager = Context.getApplicationContext().getBean(MortuaryStayManager.class);
 
     /**
      * This is the default constructor
@@ -312,9 +312,9 @@ public class MortuaryStaysBrowser extends ModalJFrame {
             } else if (c == 2) {
                 return mortuaryStays.getDescription();
             } else if (c == 3) {
-                return mortuaryStays.getDaysMin();
+                return mortuaryStays.getMinDays();
             } else if (c == 4) {
-                return mortuaryStays.getDaysMax();
+                return mortuaryStays.getMaxDays();
             }
             return null;
         }
