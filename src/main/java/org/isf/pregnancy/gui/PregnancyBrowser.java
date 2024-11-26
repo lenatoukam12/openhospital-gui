@@ -1,9 +1,25 @@
 /**
- * 
+ * Open Hospital (www.open-hospital.org)
+ * Copyright © 2024 Informatici Senza Frontiere (info@informaticisenzafrontiere.org)
+ *
+ * Open Hospital is a free and open source software for healthcare data management.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * https://www.gnu.org/licenses/gpl-3.0-standalone.html
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-/**
- * 
- */
+
 package org.isf.pregnancy.gui;
 
 import java.awt.AWTEvent;
@@ -64,14 +80,14 @@ public class PregnancyBrowser extends JFrame
 			MessageBundle.getMessage("angal.pregnancy.visitnote.col").toUpperCase() };
 	private int[] vColumwidth = { 20, 40, 40, 220 };
 
-	private PregnancyBrowser myFrame = null;
-	private List<AdmittedPatient> pregnancyPatientList = null;
+	private PregnancyBrowser myFrame;
+	private List<AdmittedPatient> pregnancyPatientList;
 	List<AdmittedPatient> patientList = new ArrayList<AdmittedPatient>();
 
-	private JTable patientTable = null;
-	private JTable visitTable = null;
-	private JScrollPane patientScrollPane = null;
-	private JScrollPane visitScrollPane = null;
+	private JTable patientTable;
+	private JTable visitTable;
+	private JScrollPane patientScrollPane;
+	private JScrollPane visitScrollPane;
 	private JButton jNewPatientButton;
 	private JButton jEditPatientButton;
 	private JButton jDeletePatientButton;
@@ -85,18 +101,18 @@ public class PregnancyBrowser extends JFrame
 	private JButton jNewPregnancyButton;
 	private JButton jEditVisitButton;
 	private JButton jDeliveryButton;
-	private JButton next = null;
-	private JButton previous = null;
-	private JComboBox pagesCombo = null;
-	private JLabel under = new JLabel("/ 0 Page");
+	private JButton next;
+	private JButton previous;
+	private JComboBox pagesCombo;
+	private JLabel under;
 	private static int PAGE_SIZE = 50;
 	private int START_INDEX = 0;
 	private int TOTAL_ROWS;
-	private Patient patient = null;
-	private JButton jSearchButton = null;
-	private JTextField searchPatientTextField = null;
-	private List<JLabel> deltypeLabel = null;
-	private List<JLabel> deltypeResLabel = null;
+	private Patient patient;
+	private JButton jSearchButton;
+	private JTextField searchPatientTextField;
+	private List<JLabel> deltypeLabel;
+	private List<JLabel> deltypeResLabel;
 	private String lastKey = "";
 	private DefaultTableModel model;
 
@@ -158,6 +174,7 @@ public class PregnancyBrowser extends JFrame
 	private JPanel getPatientPanel() {
 		JPanel dataPatientListPanel = new JPanel(new BorderLayout());
 		JPanel navigation = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		under = new JLabel(MessageBundle.getMessage("angal.common.page.label"));
 		under.setPreferredSize(new Dimension(60, 21));
 		navigation.add(getPreviousButton()).setPreferredSize(new Dimension(100, 21));
 		navigation.add(getComboBoxPages());
@@ -280,32 +297,24 @@ public class PregnancyBrowser extends JFrame
 		if (patient != null)
 			searchPatientTextField.setEnabled(false);
 		panel.add(searchPanel, BorderLayout.NORTH);
-		{
 			JPanel panelPregnantPrint = new JPanel();
 			panel.add(panelPregnantPrint, BorderLayout.SOUTH);
 			panelPregnantPrint.setLayout(new BorderLayout(0, 0));
-			{
 				JButton updateDelivery = new JButton(MessageBundle.getMessage("angal.pregnancy.updatedelivery.btn"));
 				updateDelivery.addActionListener(actionEvent -> {
 				});
 				panelPregnantPrint.add(updateDelivery, BorderLayout.NORTH);
-			}
-
-			{
 				JButton declarationBirth = new JButton(
 						MessageBundle.getMessage("angal.pregnancy.declaration_birth_but.btn"));
 				declarationBirth.addActionListener(actionEvent -> {
 				});
 				panelPregnantPrint.add(declarationBirth, BorderLayout.CENTER);
-			}
-			{
 				JButton declarationCertificate = new JButton(
 						MessageBundle.getMessage("angal.pregnancy.declaration_certificate_but.btn"));
 				declarationCertificate.addActionListener(actionEvent -> {
 				});
 				panelPregnantPrint.add(declarationCertificate, BorderLayout.SOUTH);
-			}
-		}
+
 		return panel;
 	}
 
@@ -475,8 +484,8 @@ public class PregnancyBrowser extends JFrame
 
 	private JButton getJEditPatientButton() {
 		if (jEditPatientButton == null) {
-			jEditPatientButton = new JButton(MessageBundle.getMessage("angal.common.edit.btn"));
-			jEditPatientButton.setMnemonic(MessageBundle.getMnemonic("angal.common.edit.btn.key"));
+			jEditPatientButton = new JButton(MessageBundle.getMessage("angal.common.editpatient.btn"));
+			jEditPatientButton.setMnemonic(MessageBundle.getMnemonic("angal.common.editpatient.btn.key"));
 			jEditPatientButton.addActionListener(actionEvent -> {
 				if (patientTable.getSelectedRow() < 0) {
 					MessageDialog.error(this, "angal.common.pleaseselectarow.msg");
@@ -566,7 +575,7 @@ public class PregnancyBrowser extends JFrame
 
 	private JButton getJReportButton() {
 		if (jReportButton == null) {
-			jReportButton.setText(MessageBundle.getMessage("angal.pregnancy.report.btn"));
+			jReportButton = new JButton(MessageBundle.getMessage("angal.pregnancy.report.btn"));
 			jReportButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.report.btn.key"));
 			jReportButton.addActionListener(actionEvent -> {
 			});
@@ -587,7 +596,7 @@ public class PregnancyBrowser extends JFrame
 	private JButton getJNewPregnancyButton() {
 		if (jNewPregnancyButton == null) {
 			jNewPregnancyButton = new JButton(MessageBundle.getMessage("angal.pregnancy.newpregnancy.btn"));
-			jNewPostnatalVisitButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.newpregnancy.btn.key"));
+			jNewPregnancyButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.newpregnancy.btn.key"));
 			jNewPregnancyButton.addActionListener(actionEvent -> {
 			});
 		}
@@ -606,7 +615,7 @@ public class PregnancyBrowser extends JFrame
 
 	private JButton getJDeliveryButton() {
 		if (jDeliveryButton == null) {
-			JButton jDeliveryButton = new JButton(MessageBundle.getMessage("angal.pregnancy.newdelivery.btn"));
+			jDeliveryButton = new JButton(MessageBundle.getMessage("angal.pregnancy.newdelivery.btn"));
 			jDeliveryButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.newdelivery.btn.key"));
 			jDeliveryButton.addActionListener(actionEvent -> {
 			});
