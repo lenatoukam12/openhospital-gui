@@ -221,9 +221,7 @@ public class MortuaryStaysBrowser extends ModalJFrame {
             jCloseButton = new JButton();
             jCloseButton = new JButton(MessageBundle.getMessage("angal.common.close.btn"));
             jCloseButton.setMnemonic(MessageBundle.getMnemonic("angal.common.close.btn.key"));
-            jCloseButton.addActionListener(actionEvent -> {
-                dispose();
-            });
+            jCloseButton.addActionListener(actionEvent -> dispose());
         }
         return jCloseButton;
     }
