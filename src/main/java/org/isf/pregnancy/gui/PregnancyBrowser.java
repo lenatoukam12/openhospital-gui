@@ -212,14 +212,15 @@ public class PregnancyBrowser extends JFrame
 		if (previous == null) {
 			previous = new JButton(MessageBundle.getMessage("angal.visit.arrowprevious.btn"));
 			previous.setPreferredSize(new Dimension(30, 21));
-			previous.setMnemonic(KeyEvent.VK_P);
+			previous.setMnemonic(MessageBundle.getMnemonic("angal.visit.arrowprevious.btn.key"));
 			previous.addActionListener(actionEvent -> {
 				if (!next.isEnabled())
 					next.setEnabled(true);
 				START_INDEX -= PAGE_SIZE;
 				model = new PregnancyPatientBrowserModel(null, START_INDEX, PAGE_SIZE);
-				if (START_INDEX < PAGE_SIZE)
+				if (START_INDEX < PAGE_SIZE) {
 					previous.setEnabled(false);
+				}
 				pagesCombo.setSelectedItem(START_INDEX / PAGE_SIZE + 1);
 				model.fireTableDataChanged();
 				patientTable.updateUI();
@@ -784,8 +785,9 @@ public class PregnancyBrowser extends JFrame
 		// patientTable.setModel(model);
 		model.fireTableDataChanged();
 		previous.setEnabled(false);
-		if (PAGE_SIZE > TOTAL_ROWS)
+		if (PAGE_SIZE > TOTAL_ROWS) {
 			next.setEnabled(false);
+		}	
 		patientTable.setAutoCreateRowSorter(true);
 		initialiseCombo(pagesCombo, TOTAL_ROWS);
 		patientTable.updateUI();
