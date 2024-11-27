@@ -27,8 +27,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -61,7 +59,6 @@ import org.isf.menu.gui.MainMenu;
 import org.isf.patient.gui.PatientInsert;
 import org.isf.patient.gui.PatientInsertExtended;
 import org.isf.patient.model.Patient;
-import org.isf.utils.exception.OHServiceException;
 import org.isf.utils.jobjects.MessageDialog;
 
 public class PregnancyBrowser extends JFrame
@@ -626,8 +623,7 @@ public class PregnancyBrowser extends JFrame
 			jExamsButton.setMnemonic(MessageBundle.getMnemonic("angal.opd.exams.btn.key"));
 			jExamsButton.addActionListener(actionEvent -> {
 				if (patientTable.getSelectedRow() < 0) {
-					JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.common.pleaseselectarow.msg"),
-							MessageBundle.getMessage("angal.admission.editpatient"), JOptionPane.PLAIN_MESSAGE);
+					MessageDialog.error(this,"angal.common.pleaseselectarow.msg");
 					return;
 				}
 			});
@@ -642,8 +638,7 @@ public class PregnancyBrowser extends JFrame
 			jVaccinButton.setMnemonic(MessageBundle.getMnemonic("angal.cpn.vaccin.btn.key"));
 			jVaccinButton.addActionListener(actionEvent -> {
 				if (patientTable.getSelectedRow() < 0) {
-					JOptionPane.showMessageDialog(null, MessageBundle.getMessage("angal.common.pleaseselectarow.msg"),
-							MessageBundle.getMessage("angal.admission.editpatient"), JOptionPane.PLAIN_MESSAGE);
+					MessageDialog.error(this,"angal.common.pleaseselectarow.msg");
 					return;
 				}
 			});
