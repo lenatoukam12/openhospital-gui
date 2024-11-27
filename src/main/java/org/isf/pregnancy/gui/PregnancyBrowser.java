@@ -35,7 +35,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.ArrayList;
-
+import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -241,11 +241,7 @@ public class PregnancyBrowser extends JFrame
 					if ((START_INDEX + PAGE_SIZE) > TOTAL_ROWS) {
 						next.setEnabled(false);
 					}
-					if (page_number == 1) {
-						previous.setEnabled(false);
-					} else {
-						previous.setEnabled(true);
-					}
+					previous.setEnabled(page_number != 1);
 					pagesCombo.setSelectedItem(START_INDEX / PAGE_SIZE + 1);
 					model.fireTableDataChanged();
 				}
@@ -294,8 +290,9 @@ public class PregnancyBrowser extends JFrame
 		searchPanel.add(searchPatientTextField, BorderLayout.CENTER);
 		searchPanel.add(getPatientSearchButton(), BorderLayout.EAST);
 		searchPanel = setMyBorder(searchPanel, MessageBundle.getMessage("angal.common.searchkey.txt"));
-		if (patient != null)
+		if (patient != null) {
 			searchPatientTextField.setEnabled(false);
+		}
 		panel.add(searchPanel, BorderLayout.NORTH);
 			JPanel panelPregnantPrint = new JPanel();
 			panel.add(panelPregnantPrint, BorderLayout.SOUTH);
@@ -319,7 +316,7 @@ public class PregnancyBrowser extends JFrame
 	}
 
 	private JPanel setMyBorder(JPanel c, String title) {
-		javax.swing.border.Border b2 = BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(title),
+		Border b2 = BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(title),
 				BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		c.setBorder(b2);
 		return c;
@@ -330,9 +327,6 @@ public class PregnancyBrowser extends JFrame
 			jSearchButton = new JButton();
 			jSearchButton.setIcon(new ImageIcon("rsc/icons/zoom_r_button.png"));
 			jSearchButton.setPreferredSize(new Dimension(20, 20));
-			jSearchButton.addActionListener(actionEvent -> {
-			});
-
 		}
 		if (patient != null)
 			jSearchButton.setEnabled(false);
