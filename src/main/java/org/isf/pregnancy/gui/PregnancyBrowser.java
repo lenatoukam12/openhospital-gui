@@ -110,7 +110,7 @@ public class PregnancyBrowser extends JFrame
 	private JTextField searchPatientTextField;
 	private List<JLabel> deltypeLabel;
 	private List<JLabel> deltypeResLabel;
-	private String lastKey = "";
+	private String lastKey;
 	private DefaultTableModel model;
 
 	/**
