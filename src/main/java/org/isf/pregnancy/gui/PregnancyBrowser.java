@@ -191,7 +191,7 @@ public class PregnancyBrowser extends JFrame
 		if (next == null) {
 			next = new JButton(MessageBundle.getMessage("angal.visit.nextarrow.btn"));
 			next.setPreferredSize(new Dimension(30, 21));
-			next.setMnemonic(KeyEvent.VK_X);
+			next.setMnemonic(MessageBundle.getMnemonic("angal.visit.nextarrow.btn.key"));
 			next.addActionListener(actionEvent -> {
 				if (!previous.isEnabled())
 					previous.setEnabled(true);
