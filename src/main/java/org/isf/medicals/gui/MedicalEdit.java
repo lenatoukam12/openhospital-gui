@@ -460,7 +460,7 @@ public class MedicalEdit extends JDialog {
 	 */
 	private VoLimitedTextField getDosingTextField() {
 		if (dosingTextField == null) {
-			dosingTextField = new VoLimitedTextField(5);
+			dosingTextField = new VoLimitedTextField(50);
 			if (medical != null && medical.getDosing() != null ) {
 				dosingTextField.setText(medical.getDosing());
 				}
