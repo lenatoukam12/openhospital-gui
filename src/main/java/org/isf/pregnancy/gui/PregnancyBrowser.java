@@ -500,8 +500,8 @@ public class PregnancyBrowser extends JFrame
 
 	private JButton getJDelPatientButton() {
 		if (jDeletePatientButton == null) {
-			jDeletePatientButton = new JButton(MessageBundle.getMessage("angal.common.delete.btn"));
-			jDeletePatientButton.setMnemonic(MessageBundle.getMnemonic("angal.common.delete.btn.key"));
+			jDeletePatientButton = new JButton(MessageBundle.getMessage("angal.common.deletepatient.btn"));
+			jDeletePatientButton.setMnemonic(MessageBundle.getMnemonic("angal.common.deletepatient.btn.key"));
 			jDeletePatientButton.addActionListener(actionEvent -> {
 				if (patientTable.getSelectedRow() < 0) {
 					MessageDialog.error(this, "angal.common.pleaseselectarow.msg");
