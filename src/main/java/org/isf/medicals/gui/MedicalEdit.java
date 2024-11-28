@@ -445,7 +445,7 @@ public class MedicalEdit extends JDialog {
 	 */
 	private VoLimitedTextField getConditioningTextField() {
 		if (conditioningTextField == null) {
-				conditioningTextField = new VoLimitedTextField(5);
+				conditioningTextField = new VoLimitedTextField(10);
 				if (medical != null && medical.getConditioning() != null ) {
 					conditioningTextField.setText(medical.getConditioning());
 				}
