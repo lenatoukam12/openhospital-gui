@@ -229,7 +229,7 @@ public class PregnancyBrowser extends JFrame
 
 	private JComboBox getComboBoxPages() {
 		if (pagesCombo == null) {
-			pagesCombo = new JComboBox();
+			pagesCombo = new JComboBox<>();
 			pagesCombo.setPreferredSize(new Dimension(60, 21));
 			pagesCombo.setEditable(true);
 			pagesCombo.addActionListener(actionEvent -> {
