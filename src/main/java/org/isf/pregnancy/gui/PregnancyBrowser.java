@@ -1,6 +1,6 @@
 /**
  * Open Hospital (www.open-hospital.org)
- * Copyright © 2024 Informatici Senza Frontiere (info@informaticisenzafrontiere.org)
+ * Copyright © 2006-22024 Informatici Senza Frontiere (info@informaticisenzafrontiere.org)
  *
  * Open Hospital is a free and open source software for healthcare data management.
  *
@@ -100,7 +100,7 @@ public class PregnancyBrowser extends JFrame
 	private JButton jDeliveryButton;
 	private JButton next;
 	private JButton previous;
-	private JComboBox pagesCombo;
+	private JComboBox<Integer> pagesCombo;
 	private JLabel under;
 	private static int PAGE_SIZE = 50;
 	private int START_INDEX = 0;
@@ -126,8 +126,9 @@ public class PregnancyBrowser extends JFrame
 		myFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				// to free memory
-				if (pregnancyPatientList != null)
+				if (pregnancyPatientList != null) {
 					pregnancyPatientList.clear();
+				}
 				dispose();
 			}
 		});
@@ -142,7 +143,7 @@ public class PregnancyBrowser extends JFrame
 	public PregnancyBrowser(Patient admittedpatient) {
 		setTitle(MessageBundle.getMessage("angal.pregnancy.patientsbrowser.title"));
 		myFrame = this;
-		pregnancyPatientList = new ArrayList<AdmittedPatient>();
+		pregnancyPatientList = new ArrayList<>();
 		this.patient = admittedpatient;
 		initComponents();
 		pack();
@@ -743,22 +744,19 @@ public class PregnancyBrowser extends JFrame
 		filterPatient();
 		try {
 			patientTable.setRowSelectionInterval(row, row);
-		} catch (Exception e1) {
+		} finally {
+			searchPatientTextField.requestFocus();
 		}
-		searchPatientTextField.requestFocus();
-
 	}
 
 	@Override
 	public void patientInserted(AWTEvent e) {
 		Patient u = (Patient) e.getSource();
 		if (pregnancyPatientList == null) {
-//			pregnancyPatientList.add(0, u);
 			pregnancyPatientList = new ArrayList<AdmittedPatient>();
 			pregnancyPatientList.add(0, new AdmittedPatient(u, null));
 		} else {
 			pregnancyPatientList.add(0, new AdmittedPatient(u, null));
-//			pregnancyPatientList.add(0, u);
 			lastKey = "";
 			filterPatient();
 		}
