@@ -1,6 +1,10 @@
 /**
  * Open Hospital (www.open-hospital.org)
+<<<<<<< HEAD
  * Copyright © 2006-22024 Informatici Senza Frontiere (info@informaticisenzafrontiere.org)
+=======
+ * Copyright © 2006-2024 Informatici Senza Frontiere (info@informaticisenzafrontiere.org)
+>>>>>>> f7119568348d3aab31710066711703a628032af9
  *
  * Open Hospital is a free and open source software for healthcare data management.
  *
@@ -229,7 +233,7 @@ public class PregnancyBrowser extends JFrame
 
 	private JComboBox getComboBoxPages() {
 		if (pagesCombo == null) {
-			pagesCombo = new JComboBox();
+			pagesCombo = new JComboBox<>();
 			pagesCombo.setPreferredSize(new Dimension(60, 21));
 			pagesCombo.setEditable(true);
 			pagesCombo.addActionListener(actionEvent -> {
@@ -297,8 +301,7 @@ public class PregnancyBrowser extends JFrame
 			panel.add(panelPregnantPrint, BorderLayout.SOUTH);
 			panelPregnantPrint.setLayout(new BorderLayout(0, 0));
 				JButton updateDelivery = new JButton(MessageBundle.getMessage("angal.pregnancy.updatedelivery.btn"));
-				updateDelivery.addActionListener(actionEvent -> {
-				});
+				
 				panelPregnantPrint.add(updateDelivery, BorderLayout.NORTH);
 				JButton declarationBirth = new JButton(
 						MessageBundle.getMessage("angal.pregnancy.declaration_birth_but.btn"));
@@ -335,8 +338,8 @@ public class PregnancyBrowser extends JFrame
 	private JPanel getPregnancyDetailsPanel() {
 
 		JPanel panel = new JPanel();
-		deltypeLabel = new ArrayList<JLabel>();
-		deltypeResLabel = new ArrayList<JLabel>();
+		deltypeLabel = new ArrayList<>();
+		deltypeResLabel = new ArrayList<>();
 		for (int a = 0; a < 15; a++) {
 			JLabel typeL = new JLabel("");
 			JLabel typeR = new JLabel("");
