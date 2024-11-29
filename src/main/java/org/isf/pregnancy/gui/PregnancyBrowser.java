@@ -79,7 +79,7 @@ public class PregnancyBrowser extends JFrame
 
 	private PregnancyBrowser myFrame;
 	private List<AdmittedPatient> pregnancyPatientList;
-	List<AdmittedPatient> patientList = new ArrayList<AdmittedPatient>();
+	List<AdmittedPatient> patientList = new ArrayList<>();
 
 	private JTable patientTable;
 	private JTable visitTable;
@@ -612,8 +612,9 @@ public class PregnancyBrowser extends JFrame
 			jDeliveryButton.addActionListener(actionEvent -> {
 			});
 		}
-		if (patient != null)
+		if (patient != null) {
 			jDeliveryButton.setEnabled(false);
+		}
 		return jDeliveryButton;
 	}
 
@@ -760,10 +761,13 @@ public class PregnancyBrowser extends JFrame
 			filterPatient();
 		}
 		try {
-			if (patientTable.getRowCount() > 0)
+			if (patientTable.getRowCount() > 0) {
 				patientTable.setRowSelectionInterval(0, 0);
-		} catch (Exception e1) {
+			} 
+		}finally {
+			searchPatientTextField.requestFocus();	
 		}
+		
 		searchPatientTextField.requestFocus();
 
 	}
@@ -803,12 +807,9 @@ public class PregnancyBrowser extends JFrame
 
 	private void filterVisit() {
 		visitTable.setModel(new PregnancyVisitBrowserModel());
-		try {
-			if (visitTable.getRowCount() > 0)
+			if (visitTable.getRowCount() > 0) {
 				visitTable.setRowSelectionInterval(0, 0);
-		} catch (Exception e1) {
-
-		}
+			}
 	}
 
 	class TableListener implements ListSelectionListener {
