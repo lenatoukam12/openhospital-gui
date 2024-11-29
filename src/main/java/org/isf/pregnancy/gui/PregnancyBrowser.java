@@ -143,7 +143,7 @@ public class PregnancyBrowser extends JFrame
 	public PregnancyBrowser(Patient admittedpatient) {
 		setTitle(MessageBundle.getMessage("angal.pregnancy.patientsbrowser.title"));
 		myFrame = this;
-		pregnancyPatientList = new ArrayList<AdmittedPatient>();
+		pregnancyPatientList = new ArrayList<>();
 		this.patient = admittedpatient;
 		initComponents();
 		pack();
