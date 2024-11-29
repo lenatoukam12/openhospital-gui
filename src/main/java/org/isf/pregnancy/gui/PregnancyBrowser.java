@@ -334,8 +334,8 @@ public class PregnancyBrowser extends JFrame
 	private JPanel getPregnancyDetailsPanel() {
 
 		JPanel panel = new JPanel();
-		deltypeLabel = new ArrayList<JLabel>();
-		deltypeResLabel = new ArrayList<JLabel>();
+		deltypeLabel = new ArrayList<>();
+		deltypeResLabel = new ArrayList<>();
 		for (int a = 0; a < 15; a++) {
 			JLabel typeL = new JLabel("");
 			JLabel typeR = new JLabel("");
