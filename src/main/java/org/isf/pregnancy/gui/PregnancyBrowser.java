@@ -100,7 +100,7 @@ public class PregnancyBrowser extends JFrame
 	private JButton jDeliveryButton;
 	private JButton next;
 	private JButton previous;
-	private JComboBox pagesCombo;
+	private JComboBox<Integer> pagesCombo;
 	private JLabel under;
 	private static int PAGE_SIZE = 50;
 	private int START_INDEX = 0;
