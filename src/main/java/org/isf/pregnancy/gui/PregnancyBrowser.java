@@ -297,8 +297,7 @@ public class PregnancyBrowser extends JFrame
 			panel.add(panelPregnantPrint, BorderLayout.SOUTH);
 			panelPregnantPrint.setLayout(new BorderLayout(0, 0));
 				JButton updateDelivery = new JButton(MessageBundle.getMessage("angal.pregnancy.updatedelivery.btn"));
-				updateDelivery.addActionListener(actionEvent -> {
-				});
+				
 				panelPregnantPrint.add(updateDelivery, BorderLayout.NORTH);
 				JButton declarationBirth = new JButton(
 						MessageBundle.getMessage("angal.pregnancy.declaration_birth_but.btn"));
