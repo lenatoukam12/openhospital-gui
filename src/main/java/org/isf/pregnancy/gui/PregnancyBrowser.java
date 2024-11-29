@@ -126,8 +126,9 @@ public class PregnancyBrowser extends JFrame
 		myFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				// to free memory
-				if (pregnancyPatientList != null)
+				if (pregnancyPatientList != null) {
 					pregnancyPatientList.clear();
+				}
 				dispose();
 			}
 		});
