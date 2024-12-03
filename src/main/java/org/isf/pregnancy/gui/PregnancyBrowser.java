@@ -62,7 +62,7 @@ import org.isf.patient.model.Patient;
 import org.isf.utils.jobjects.MessageDialog;
 
 public class PregnancyBrowser extends JFrame
-		implements PatientInsert.PatientListener, PatientInsertExtended.PatientListener {
+		implements PatientInsert.PatientListener, PatientInsertExtended.PatientListener, AdmissionListener {
 
 	private static final long serialVersionUID = 1L;
 	private String[] pColums = { MessageBundle.getMessage("angal.common.code.txt").toUpperCase(),
@@ -558,8 +558,6 @@ public class PregnancyBrowser extends JFrame
 		if (jReportButton == null) {
 			jReportButton = new JButton(MessageBundle.getMessage("angal.pregnancy.report.btn"));
 			jReportButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.report.btn.key"));
-			jReportButton.addActionListener(actionEvent -> {
-			});
 		}
 		return jReportButton;
 	}
@@ -568,8 +566,6 @@ public class PregnancyBrowser extends JFrame
 		if (jNewPostnatalVisitButton == null) {
 			jNewPostnatalVisitButton = new JButton(MessageBundle.getMessage("angal.pregnancy.newpostnatalvisit.btn"));
 			jNewPostnatalVisitButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.newpostnatalvisit.btn.key"));
-			jNewPostnatalVisitButton.addActionListener(actionEvent -> {
-			});
 		}
 		return jNewPostnatalVisitButton;
 	}
@@ -578,8 +574,6 @@ public class PregnancyBrowser extends JFrame
 		if (jNewPregnancyButton == null) {
 			jNewPregnancyButton = new JButton(MessageBundle.getMessage("angal.pregnancy.newpregnancy.btn"));
 			jNewPregnancyButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.newpregnancy.btn.key"));
-			jNewPregnancyButton.addActionListener(actionEvent -> {
-			});
 		}
 		return jNewPregnancyButton;
 	}
@@ -588,8 +582,6 @@ public class PregnancyBrowser extends JFrame
 		if (jEditVisitButton == null) {
 			jEditVisitButton = new JButton(MessageBundle.getMessage("angal.pregnancy.editvisit.btn"));
 			jEditVisitButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.editvisit.btn.key"));
-			jEditVisitButton.addActionListener(actionEvent -> {
-			});
 		}
 		return jEditVisitButton;
 	}
@@ -598,8 +590,6 @@ public class PregnancyBrowser extends JFrame
 		if (jDeliveryButton == null) {
 			jDeliveryButton = new JButton(MessageBundle.getMessage("angal.pregnancy.newdelivery.btn"));
 			jDeliveryButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.newdelivery.btn.key"));
-			jDeliveryButton.addActionListener(actionEvent -> {
-			});
 		}
 		if (patient != null) {
 			jDeliveryButton.setEnabled(false);
@@ -790,16 +780,6 @@ public class PregnancyBrowser extends JFrame
 				filterVisit();
 			}
 		}
-	}
-
-	@Override
-	public void admissionUpdated(AWTEvent e) {
-
-	}
-
-	@Override
-	public void admissionInserted(AWTEvent e) {
-
 	}
 
 	public void initialiseCombo(JComboBox pagesCombo, int total_rows) {
