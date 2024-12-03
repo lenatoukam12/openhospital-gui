@@ -62,7 +62,7 @@ import org.isf.patient.model.Patient;
 import org.isf.utils.jobjects.MessageDialog;
 
 public class PregnancyBrowser extends JFrame
-		implements PatientInsert.PatientListener, PatientInsertExtended.PatientListener, AdmissionListener {
+		implements PatientInsert.PatientListener, PatientInsertExtended.PatientListener {
 
 	private static final long serialVersionUID = 1L;
 	private String[] pColums = { MessageBundle.getMessage("angal.common.code.txt").toUpperCase(),
@@ -297,17 +297,12 @@ public class PregnancyBrowser extends JFrame
 			panel.add(panelPregnantPrint, BorderLayout.SOUTH);
 			panelPregnantPrint.setLayout(new BorderLayout(0, 0));
 				JButton updateDelivery = new JButton(MessageBundle.getMessage("angal.pregnancy.updatedelivery.btn"));
-				
 				panelPregnantPrint.add(updateDelivery, BorderLayout.NORTH);
 				JButton declarationBirth = new JButton(
 						MessageBundle.getMessage("angal.pregnancy.declaration_birth_but.btn"));
-				declarationBirth.addActionListener(actionEvent -> {
-				});
 				panelPregnantPrint.add(declarationBirth, BorderLayout.CENTER);
 				JButton declarationCertificate = new JButton(
 						MessageBundle.getMessage("angal.pregnancy.declaration_certificate_but.btn"));
-				declarationCertificate.addActionListener(actionEvent -> {
-				});
 				panelPregnantPrint.add(declarationCertificate, BorderLayout.SOUTH);
 
 		return panel;
@@ -466,8 +461,6 @@ public class PregnancyBrowser extends JFrame
 		if (jNewPatientButton == null) {
 			jNewPatientButton = new JButton(MessageBundle.getMessage("angal.common.newpatient.btn"));
 			jNewPatientButton.setMnemonic(MessageBundle.getMnemonic("angal.common.new.btn.key"));
-			jNewPatientButton.addActionListener(actionEvent -> {
-			});
 		}
 		if (patient != null)
 			jNewPatientButton.setEnabled(false);
@@ -549,8 +542,6 @@ public class PregnancyBrowser extends JFrame
 		if (jNewPrenatalVisitButton == null) {
 			jNewPrenatalVisitButton = new JButton(MessageBundle.getMessage("angal.pregnancy.newprenatalvisit.btn"));
 			jNewPrenatalVisitButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.newprenatalvisit.btn.key"));
-			jNewPrenatalVisitButton.addActionListener(actionEvent -> {
-			});
 		}
 		return jNewPrenatalVisitButton;
 	}
@@ -559,8 +550,6 @@ public class PregnancyBrowser extends JFrame
 		if (jDeleteVisitButton == null) {
 			jDeleteVisitButton = new JButton(MessageBundle.getMessage("angal.pregnancy.deletevisit.btn"));
 			jDeleteVisitButton.setMnemonic(MessageBundle.getMnemonic("angal.pregnancy.deletevisit.btn.key"));
-			jDeleteVisitButton.addActionListener(actionEvent -> {
-			});
 		}
 		return jDeleteVisitButton;
 	}
@@ -747,29 +736,6 @@ public class PregnancyBrowser extends JFrame
 		} finally {
 			searchPatientTextField.requestFocus();
 		}
-	}
-
-	@Override
-	public void patientInserted(AWTEvent e) {
-		Patient u = (Patient) e.getSource();
-		if (pregnancyPatientList == null) {
-			pregnancyPatientList = new ArrayList<AdmittedPatient>();
-			pregnancyPatientList.add(0, new AdmittedPatient(u, null));
-		} else {
-			pregnancyPatientList.add(0, new AdmittedPatient(u, null));
-			lastKey = "";
-			filterPatient();
-		}
-		try {
-			if (patientTable.getRowCount() > 0) {
-				patientTable.setRowSelectionInterval(0, 0);
-			} 
-		}finally {
-			searchPatientTextField.requestFocus();	
-		}
-		
-		searchPatientTextField.requestFocus();
-
 	}
 
 	private void filterPatient2() {
