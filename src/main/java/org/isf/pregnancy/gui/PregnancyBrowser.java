@@ -728,6 +728,29 @@ public class PregnancyBrowser extends JFrame
 		}
 	}
 
+	@Override
+	public void patientInserted(AWTEvent e) {
+		Patient u = (Patient) e.getSource();
+		if (pregnancyPatientList == null) {
+			pregnancyPatientList = new ArrayList<AdmittedPatient>();
+			pregnancyPatientList.add(0, new AdmittedPatient(u, null));
+		} else {
+			pregnancyPatientList.add(0, new AdmittedPatient(u, null));
+			lastKey = "";
+			filterPatient();
+		}
+		try {
+			if (patientTable.getRowCount() > 0) {
+				patientTable.setRowSelectionInterval(0, 0);
+			} 
+		}finally {
+			searchPatientTextField.requestFocus();	
+		}
+		
+		searchPatientTextField.requestFocus();
+
+	}
+
 	private void filterPatient2() {
 
 		TOTAL_ROWS = (new PregnancyPatientBrowserModel()).total_row;
@@ -780,6 +803,16 @@ public class PregnancyBrowser extends JFrame
 				filterVisit();
 			}
 		}
+	}
+
+	@Override
+	public void admissionUpdated(AWTEvent e) {
+
+	}
+
+	@Override
+	public void admissionInserted(AWTEvent e) {
+
 	}
 
 	public void initialiseCombo(JComboBox pagesCombo, int total_rows) {
